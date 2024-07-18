@@ -6,13 +6,13 @@ import useImageModal from "./useImageModal"
 function App() {
   const { onOpen } = useImageModal()
   return (
-    <main className='grid grid-cols-5 justify-center content-center gap-2 max-w-7xl h-full mx-auto px-4'>
+    <main className='mx-auto grid h-full max-w-7xl grid-cols-2 content-center justify-center gap-2 px-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
       {
         images.map((image, idx) => (
-          <article key={image} onClick={()=> onOpen(idx)} className="relative group cursor-pointer overflow-hidden">
-            <img src={image} className="w-full transition-transform group-hover:scale-150 ease-linear h-full object-cover object-center" />
-            <div className="absolute transition-colors group-hover:bg-black/40 w-full h-full top-0 left-0 bg-transparent flex justify-center items-center">
-              <MoveDiagonalIcon className="scale-0 group-hover:scale-100 transition-transform" />
+          <article key={image} onClick={()=> onOpen(idx)} className="group relative cursor-pointer overflow-hidden">
+            <img src={image} className="h-full w-full object-cover object-center transition-transform ease-linear group-hover:scale-150" />
+            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-transparent transition-colors group-hover:bg-black/40">
+              <MoveDiagonalIcon className="scale-0 transition-transform group-hover:scale-100" />
             </div>
           </article>
         ))
