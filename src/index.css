@@ -9,7 +9,7 @@ body,
   color: #eee;
 }
 
-@supports (.scrollbar::-webkit-scrollbar) {
+@supports ((.scrollbar::-webkit-scrollbar)) {
   .scrollbar {
     -ms-overflow-style: none;
     scrollbar-color: transparent;
@@ -18,6 +18,9 @@ body,
   }
 }
 
+.snap {
+  scroll-snap-type: x mandatory;
+}
 
 .scrollbar::-webkit-scrollbar {
   height: 2px;
@@ -30,6 +33,7 @@ body,
 .scrollbar::-webkit-scrollbar {
   background-color: transparent;
 }
+
 
 .scrollbar::-webkit-scrollbar-thumb {
   border-radius: 20px;

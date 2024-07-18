@@ -6,7 +6,7 @@ import useImageModal from "./useImageModal"
 function App() {
   const { onOpen } = useImageModal()
   return (
-    <main className='mx-auto grid max-w-7xl grid-cols-2 content-center justify-center gap-2 px-4 sm:grid-cols-3 md:h-screen md:grid-cols-4 lg:grid-cols-5'>
+    <main className='mx-auto grid max-w-7xl grid-cols-2 content-center justify-center gap-2 p-4 sm:grid-cols-3 sm:px-4 md:h-screen md:grid-cols-4 lg:grid-cols-5'>
       {
         images.map((image, idx) => (
           <article key={image} onClick={()=> onOpen(idx)} className="group relative cursor-pointer overflow-hidden">
