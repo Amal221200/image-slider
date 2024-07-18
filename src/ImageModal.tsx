@@ -28,6 +28,9 @@ const ImageModal = () => {
     // Desktop Events
     useEffect(() => {
         const handleKeyNavigation = (e: KeyboardEvent) => {
+            if(!open){
+                return
+            }
             if (e.key === 'ArrowLeft') {
                 handlePrev()
             } else if (e.key === 'ArrowRight') {
@@ -41,23 +44,31 @@ const ImageModal = () => {
             document.removeEventListener('keydown', handleKeyNavigation)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [openedImage])
+    }, [openedImage, open])
 
     // Mobile Events
     const touchPosition = useRef(0)
     useEffect(() => {
         const handleTouchStart = (e: TouchEvent) => {
-            // console.log(e.touches[0]);
+            if(!open){
+                return
+            }
             touchPosition.current = e.touches[0].clientX
             return [isNext.current, isPrev.current] = [false, false]
         }
 
         const handleTouchMove = (e: TouchEvent) => {
+            if(!open){
+                return
+            }
             isPrev.current = (touchPosition.current < e.touches[0].clientX)
             isNext.current = (touchPosition.current > e.touches[0].clientX)
         }
 
         const handleTouchEnd = () => {
+            if(!open){
+                return
+            }
             if (isPrev.current) {
                 handlePrev()
             } else if (isNext.current) {
@@ -74,19 +85,20 @@ const ImageModal = () => {
             document.removeEventListener('touchend', handleTouchEnd)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [openedImage])
-
-
+    }, [openedImage, open])
+    
+    
     // Scroll Container logic
     const scrollContainer = useRef<HTMLDivElement>()
     useEffect(() => {
-        if (!scrollContainer.current) {
+        if (!scrollContainer.current || !open) {
             return
         }
         const scrollWidth = scrollContainer.current.scrollWidth
         const imagePosition = (scrollWidth / images.length) * (openedImage ?? 0)
         scrollContainer.current.scrollLeft = imagePosition
-    }, [openedImage])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [openedImage, open])
 
     return (
         <div id="image-modal" className={`fixed overflow-hidden inset-0 w-full h-full bg-black/70 justify-center items-center ${open ? 'flex' : 'hidden'}`}>
