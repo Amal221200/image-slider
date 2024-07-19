@@ -41,12 +41,14 @@ function App() {
         document.querySelector<HTMLButtonElement>(`#image-${newId}`)?.focus()
         id.current = newId
       } else if (e.key === 'ArrowUp') {
-        const newId = id.current > 0 ? id.current - cols : 0
+        const potentialId = id.current - cols
+        const newId = potentialId > 0 ? potentialId : 0
         document.querySelector<HTMLButtonElement>(`#image-${newId}`)?.focus()
         id.current = newId
       }
       else if (e.key === 'ArrowDown') {
-        const newId = id.current < images.length - 1 ? id.current + cols : images.length - 1
+        const potentialId = id.current + cols
+        const newId = potentialId < images.length - 1 ? potentialId : images.length - 1
         document.querySelector<HTMLButtonElement>(`#image-${newId}`)?.focus()
         id.current = newId
       }
