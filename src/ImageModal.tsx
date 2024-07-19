@@ -8,7 +8,7 @@ const ImageModal = () => {
     const { open, imageIndex: openedImage, onOpen, onClose } = useImageModal()
     const isPrev = useRef(false)
     const isNext = useRef(false)
-    
+
     const handleNext = useCallback(() => {
         if (openedImage === (images.length - 1)) {
             return
@@ -24,21 +24,28 @@ const ImageModal = () => {
         onOpen(openedImage! - 1);
         [isPrev.current, isNext.current] = [false, true]
     }, [onOpen, openedImage])
+    
+    const handleClose = useCallback(() => {
+        onClose();
+        [isPrev.current, isNext.current] = [false, false]
+    }, [onClose])
 
     // Desktop Events
     useEffect(() => {
+        if (!open) {
+            return
+        }
+        
         const handleKeyNavigation = (e: KeyboardEvent) => {
-            if(!open){
-                return
-            }
             if (e.key === 'ArrowLeft') {
                 handlePrev()
             } else if (e.key === 'ArrowRight') {
                 handleNext()
             } else if (e.key === 'Escape') {
-                onClose()
+                handleClose()
             }
         }
+        
         document.addEventListener('keydown', handleKeyNavigation)
         return () => {
             document.removeEventListener('keydown', handleKeyNavigation)
@@ -49,26 +56,20 @@ const ImageModal = () => {
     // Mobile Events
     const touchPosition = useRef(0)
     useEffect(() => {
+        if (!open) {
+            return
+        }
         const handleTouchStart = (e: TouchEvent) => {
-            if(!open){
-                return
-            }
             touchPosition.current = e.touches[0].clientX
             return [isNext.current, isPrev.current] = [false, false]
         }
 
         const handleTouchMove = (e: TouchEvent) => {
-            if(!open){
-                return
-            }
             isPrev.current = (touchPosition.current < e.touches[0].clientX)
             isNext.current = (touchPosition.current > e.touches[0].clientX)
         }
 
         const handleTouchEnd = () => {
-            if(!open){
-                return
-            }
             if (isPrev.current) {
                 handlePrev()
             } else if (isNext.current) {
@@ -86,8 +87,8 @@ const ImageModal = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [openedImage, open])
-    
-    
+
+
     // Scroll Container logic
     const scrollContainer = useRef<HTMLDivElement>()
     useEffect(() => {
@@ -102,10 +103,7 @@ const ImageModal = () => {
 
     return (
         <div id="image-modal" className={`fixed overflow-hidden inset-0 w-full h-full bg-black/70 justify-center items-center ${open ? 'flex' : 'hidden'}`}>
-            <button type="button" className="absolute right-8 top-8 bg-transparent" onClick={() => {
-                [isNext.current, isPrev.current] = [false, false]
-                onClose()
-            }}>
+            <button type="button" className="absolute right-8 top-8 bg-transparent" onClick={handleClose}>
                 <XIcon className="scale-150 text-white/60 transition-colors hover:text-white" />
             </button>
 
