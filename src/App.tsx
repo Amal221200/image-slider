@@ -33,7 +33,7 @@ function App() {
       }
 
       if (e.key === 'ArrowLeft') {
-        const newId = selectedId.current === 0 ? images.length - 1 : selectedId.current - 1
+        const newId = selectedId.current <= 0 ? images.length - 1 : selectedId.current - 1
         document.querySelector<HTMLButtonElement>(`#image-${newId}`)?.focus()
         selectedId.current = newId
       } else if (e.key === 'ArrowRight') {
