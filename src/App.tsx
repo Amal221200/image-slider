@@ -18,7 +18,7 @@ function App() {
     }
 
     const handleKeyNavigation = (e: KeyboardEvent) => {
-      // Storing the grid columns for different screen width for up and down navigation
+      // Storing the grid columns of different screen width for up and down navigation
       let cols = 0
       if (window.innerWidth < 640) {
         cols = 2
